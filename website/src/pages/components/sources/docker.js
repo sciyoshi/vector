@@ -53,7 +53,7 @@ function Community() {
               <AnchoredH3 id="install-vector">Install Vector</AnchoredH3>
 
               <p>
-                Vector is a modern log and metrics collector written in Rust. It's reliable, fast, and simpl to setup. It comes pre-loaded with Docker integration making it easy to setup.
+                Vector is a modern log and metrics collector written in Rust. It's reliable, fast, and simple to setup. It comes pre-loaded with Docker integration making it easy to setup.
               </p>
 
               <InstallationCommand />
