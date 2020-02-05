@@ -36,23 +36,77 @@ function Community() {
       </header>
       <main className="container container--narrow margin-vert--xl">
         <section>
-          <blockquote className="blockquote--primary">
+          <blockquote className="blockquote--secondary">
             <div>&quot;I just wanna, like, collect my Docker logs and grep them -- why is all of this so complicated?&quot;</div>
-            <footer>— all developers</footer>
+            <footer>— developers</footer>
           </blockquote>
 
           <p>
-            This guide will cover to quickly and efficiently collect Docker logs and send them to one or more destinations.
+            So you want to collect your Docker logs and send them somewhere? Sounds simple! Sadly, it is not. When you account for integrating with the Docker API, parsing, enriching, buffering, batching, retrying, handling back-pressure, load shedding, and fanning-out you quickly realize this is not so easy. Fear not though! This guide will get you up and running in minutes, all without becoming a Docker logging expert.
           </p>
         </section>
         <section>
-          <AnchoredH2 id="guide">A simple step-by-step guide</AnchoredH2>
+          <AnchoredH2 id="accomplish">What we'll accomplish in this guide</AnchoredH2>
+
+          <ol className="list--checks list--lg list--semi-bold list--primary">
+            <li>Collect Docker logs.</li>
+            <li>Filter which containers you collect them from.</li>
+            <li>Parse, structure, and enrich your logs.</li>
+            <li>Send them to one or more destinations.</li>
+            <li className="list--li--arrow list--li--pink">All in just a few minutes. Let's get started!</li>
+          </ol>
+        </section>
+        <section>
+          <AnchoredH2 id="guide">A step-by-step guide</AnchoredH2>
 
           <ol className="sections sections--h3">
             <li>
-              <AnchoredH3 id="install-vector">Install Vector</AnchoredH3>
+              <AnchoredH3 id="install-vector">Run a Docker container to generate logs</AnchoredH3>
 
               <p>
+                First, let's make sure we have a Docker container generating logs. For this guide we'll use the <a href=""><code>chentex/random-logger</code> image</a>:
+              </p>
+
+              <CodeBlock className="language-bash">
+                docker run -d chentex/random-logger:latest
+              </CodeBlock>
+            </li>
+
+            <li>
+              <AnchoredH3 id="install-vector">Verify log generation</AnchoredH3>
+
+              <p>
+                Let's make sure logs are being generated:
+              </p>
+
+              <CodeBlock className="language-bash">
+                docker logs $(docker ps | grep 'chentex/random-logger' | awk)
+              </CodeBlock>
+
+              <p>
+                You'll see output like:
+              </p>
+
+              <CodeBlock className="language-text">
+                2020-02-04T21:22:44+0000 DEBUG first loop completed.
+                2020-02-04T21:22:46+0000 ERROR something happened in this execution.
+                2020-02-04T21:22:47+0000 DEBUG first loop completed.
+                2020-02-04T21:22:52+0000 ERROR something happened in this execution.
+                2020-02-04T21:22:56+0000 INFO takes the value and converts it to string.
+                2020-02-04T21:23:01+0000 ERROR something happened in this execution.
+              </CodeBlock>
+
+              <p>
+                Hooray 🎉! We have logs being generated, now let's do something with them.
+              </p>
+            </li>
+
+            <li>
+              <AnchoredH3 id="install-vector">Collect Your Docker Logs</AnchoredH3>
+
+              <p>
+
+
                 Vector is a modern log and metrics collector written in Rust. It's reliable, fast, and simple to setup. It comes pre-loaded with Docker integration making it easy to setup.
               </p>
 

@@ -258,20 +258,6 @@ blockquote > footer {
 }
 
 /**
- * checks
- *
- * Generic list with checkmarks as list styles.
- */
-
-ul.checks {
-  list-style: none;
-}
-ul.checks li > i.feather:first-child {
-  margin-left: -1.8em;
-  margin-right: 0.5em;
-}
-
-/**
  * comparison
  *
  * Comparison table used in both the performance and correctness tables.
@@ -782,6 +768,50 @@ input[type="text"]:focus {
   border-bottom: 1px solid var(--ifm-color-warning);
   padding-bottom: 5px;
   font-size: 0.8rem;
+}
+
+/**
+ * list
+ */
+
+ol.list--flush {
+  padding-left: 0;
+}
+ol.list--lg {
+  font-size: 1.2em;
+}
+ol.list--primary {
+  color: var(--ifm-color-primary);
+}
+ol.list--semi-bold {
+  font-weight: 500;
+}
+
+/**
+ * list--checks
+ *
+ * A simple list that uses check marks as bullets.
+ */
+
+ol.list--checks {
+  list-style: none;
+}
+ol.list--checks li:before {
+  content: '✓';
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+/**
+ * list--li
+ */
+
+ol li.list--li--arrow:before {
+  content: "→";
+}
+ol li.list--li--pink:before,
+ol li.list--li--pink {
+  color: var(--ifm-color-pink);
 }
 
 /**
