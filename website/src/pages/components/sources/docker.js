@@ -49,7 +49,7 @@ function Community() {
           <AnchoredH2 id="accomplish">What we'll accomplish in this guide</AnchoredH2>
 
           <ol className="list--checks list--lg list--semi-bold list--primary">
-            <li>Collect Docker logs.</li>
+            <li>Collect Docker logs (the right way).</li>
             <li>Filter which containers you collect them from.</li>
             <li>Parse, structure, and enrich your logs.</li>
             <li>Send them to one or more destinations.</li>
