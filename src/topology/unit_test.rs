@@ -395,6 +395,12 @@ fn build_unit_test(
         })
         .collect();
 
+    if definition.outputs.is_empty() && definition.no_outputs_from.is_empty() {
+        errors.push(
+            "unit test must contain at least one of `outputs` or `no_outputs_from`.".to_owned(),
+        );
+    }
+
     if !errors.is_empty() {
         Err(errors)
     } else {
@@ -468,6 +474,35 @@ mod tests {
             errs,
             vec![r#"Failed to build test 'broken test':
   unable to locate target transform 'foo'"#
+                .to_owned(),]
+        );
+    }
+
+    #[test]
+    fn parse_no_outputs() {
+        let config: Config = toml::from_str(
+            r#"
+[transforms.foo]
+  inputs = ["ignored"]
+  type = "add_fields"
+  [transforms.foo.fields]
+    my_string_field = "string value"
+
+[[tests]]
+  name = "broken test"
+
+  [tests.input]
+    insert_at = "foo"
+    value = "nah this doesnt matter"
+      "#,
+        )
+        .unwrap();
+
+        let errs = build_unit_tests(&config).err().unwrap();
+        assert_eq!(
+            errs,
+            vec![r#"Failed to build test 'broken test':
+  unit test must contain at least one of `outputs` or `no_outputs_from`."#
                 .to_owned(),]
         );
     }
