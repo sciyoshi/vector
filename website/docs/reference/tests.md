@@ -53,6 +53,15 @@ import CodeHeader from '@site/src/components/CodeHeader';
   # REQUIRED - General
   name = "foo test" # example
 
+  # REQUIRED - Inputs
+  [[tests.inputs]]
+    # REQUIRED
+    type = "raw" # example, enum
+    insert_at = "foo" # example
+
+    # OPTIONAL
+    value = "some message contents" # example, no default, relevant when type = "raw"
+
   # REQUIRED - Outputs
   [[tests.outputs]]
     # REQUIRED - General
@@ -67,15 +76,6 @@ import CodeHeader from '@site/src/components/CodeHeader';
       "message.eq" = "this is the content to match against"
       "host.exists" = true
       "method.neq" = "POST"
-
-  # REQUIRED - Input
-  [tests.input]
-    # REQUIRED
-    type = "raw" # example, enum
-    insert_at = "foo" # example
-
-    # OPTIONAL
-    value = "some message contents" # example, no default, relevant when type = "raw"
 ```
 
 </TabItem>
@@ -92,6 +92,37 @@ import CodeHeader from '@site/src/components/CodeHeader';
   # REQUIRED - General
   name = "foo test" # example
 
+  # REQUIRED - Inputs
+  [[tests.inputs]]
+    # REQUIRED - General
+    type = "raw" # example, enum
+    insert_at = "foo" # example
+
+    # OPTIONAL - General
+    value = "some message contents" # example, no default, relevant when type = "raw"
+
+    # OPTIONAL - Log fields
+    [tests.inputs.log_fields]
+      message = "some message contents" # example
+      host = "myhost" # example
+
+    # OPTIONAL - Metric
+    [tests.inputs.metric]
+      # REQUIRED - General
+      type = "counter" # example, enum
+      name = "duration_total" # example
+      timestamp = "2019-11-01T21:15:47.443232Z" # example
+      val = 10.2 # example
+
+      # OPTIONAL - General
+      direction = "plus" # example, no default, enum
+      sample_rate = 1 # example, no default
+
+      # OPTIONAL - Tags
+      [tests.inputs.metric.tags]
+        host = "foohost" # example
+        region = "us-east-1" # example
+
   # REQUIRED - Outputs
   [[tests.outputs]]
     # REQUIRED - General
@@ -106,37 +137,6 @@ import CodeHeader from '@site/src/components/CodeHeader';
       "message.eq" = "this is the content to match against"
       "host.exists" = true
       "method.neq" = "POST"
-
-  # REQUIRED - Input
-  [tests.input]
-    # REQUIRED - General
-    type = "raw" # example, enum
-    insert_at = "foo" # example
-
-    # OPTIONAL - General
-    value = "some message contents" # example, no default, relevant when type = "raw"
-
-    # OPTIONAL - Log fields
-    [tests.input.log_fields]
-      message = "some message contents" # example
-      host = "myhost" # example
-
-    # OPTIONAL - Metric
-    [tests.input.metric]
-      # REQUIRED - General
-      type = "counter" # example, enum
-      name = "duration_total" # example
-      timestamp = "2019-11-01T21:15:47.443232Z" # example
-      val = 10.2 # example
-
-      # OPTIONAL - General
-      direction = "plus" # example, no default, enum
-      sample_rate = 1 # example, no default
-
-      # OPTIONAL - Tags
-      [tests.input.metric.tags]
-        host = "foohost" # example
-        region = "us-east-1" # example
 ```
 
 </TabItem>
@@ -159,16 +159,16 @@ import Field from '@site/src/components/Field';
   defaultValue={null}
   enumValues={null}
   examples={[]}
-  name={"input"}
+  name={"inputs"}
   path={null}
   relevantWhen={null}
   required={true}
   templateable={false}
-  type={"table"}
+  type={"[table]"}
   unit={null}
   >
 
-### input
+### inputs
 
 A table that defines a unit test input event.
 
@@ -181,7 +181,7 @@ A table that defines a unit test input event.
   enumValues={null}
   examples={["foo"]}
   name={"insert_at"}
-  path={"input"}
+  path={"inputs"}
   relevantWhen={null}
   required={true}
   templateable={false}
@@ -203,7 +203,7 @@ The name of a transform, the input event will be delivered to this transform in 
   enumValues={null}
   examples={[]}
   name={"log_fields"}
-  path={"input"}
+  path={"inputs"}
   relevantWhen={{"type":"log"}}
   required={false}
   templateable={false}
@@ -224,7 +224,7 @@ Specifies the log fields when the input type is 'log'.
   enumValues={null}
   examples={[{"message":"some message contents"},{"host":"myhost"}]}
   name={"`[field-name]`"}
-  path={"input.log_fields"}
+  path={"inputs.log_fields"}
   relevantWhen={null}
   required={true}
   templateable={false}
@@ -251,7 +251,7 @@ A key/value pair representing a field to be added to the input event.
   enumValues={null}
   examples={[]}
   name={"metric"}
-  path={"input"}
+  path={"inputs"}
   relevantWhen={{"type":"metric"}}
   required={false}
   templateable={false}
@@ -272,7 +272,7 @@ Specifies the metric type when the input type is 'metric'.
   enumValues={{"plus":"Increase the gauge","minus":"Decrease the gauge"}}
   examples={["plus","minus"]}
   name={"direction"}
-  path={"input.metric"}
+  path={"inputs.metric"}
   relevantWhen={null}
   required={false}
   templateable={false}
@@ -294,7 +294,7 @@ The direction to increase or decrease the gauge value.
   enumValues={null}
   examples={["duration_total"]}
   name={"name"}
-  path={"input.metric"}
+  path={"inputs.metric"}
   relevantWhen={null}
   required={true}
   templateable={false}
@@ -316,7 +316,7 @@ The name of the metric. Defaults to `<field>_total` for `counter` and `<field>` 
   enumValues={null}
   examples={[1]}
   name={"sample_rate"}
-  path={"input.metric"}
+  path={"inputs.metric"}
   relevantWhen={null}
   required={false}
   templateable={false}
@@ -338,7 +338,7 @@ The bucket/distribution the metric is a part of.
   enumValues={null}
   examples={[]}
   name={"tags"}
-  path={"input.metric"}
+  path={"inputs.metric"}
   relevantWhen={null}
   required={false}
   templateable={false}
@@ -359,7 +359,7 @@ Key/value pairs representing [metric tags][docs.data-model.metric#tags].
   enumValues={null}
   examples={[{"host":"foohost"},{"region":"us-east-1"}]}
   name={"`[tag-name]`"}
-  path={"input.metric.tags"}
+  path={"inputs.metric.tags"}
   relevantWhen={null}
   required={true}
   templateable={false}
@@ -386,7 +386,7 @@ Key/value pairs representing [metric tags][docs.data-model.metric#tags].
   enumValues={null}
   examples={["2019-11-01T21:15:47.443232Z"]}
   name={"timestamp"}
-  path={"input.metric"}
+  path={"inputs.metric"}
   relevantWhen={null}
   required={true}
   templateable={false}
@@ -408,7 +408,7 @@ Time metric was created/ingested.
   enumValues={{"counter":"A [counter metric type][docs.data-model.metric#counter].","gauge":"A [gauge metric type][docs.data-model.metric#gauge].","histogram":"A [distribution metric type][docs.data-model.metric#distribution].","set":"A [set metric type][docs.data-model.metric#set]."}}
   examples={["counter"]}
   name={"type"}
-  path={"input.metric"}
+  path={"inputs.metric"}
   relevantWhen={null}
   required={true}
   templateable={false}
@@ -430,7 +430,7 @@ The metric type.
   enumValues={null}
   examples={[10.2]}
   name={"val"}
-  path={"input.metric"}
+  path={"inputs.metric"}
   relevantWhen={null}
   required={true}
   templateable={false}
@@ -457,7 +457,7 @@ Amount to increment/decrement or gauge.
   enumValues={{"raw":"Creates a log event where the message contents are specified in the field 'value'.","log":"Creates a log event where log fields are specified in the table 'log_fields'.","metric":"Creates a metric event, where its type and fields are specified in the table 'metric'."}}
   examples={["raw","log","metric"]}
   name={"type"}
-  path={"input"}
+  path={"inputs"}
   relevantWhen={null}
   required={true}
   templateable={false}
@@ -479,7 +479,7 @@ The event type.
   enumValues={null}
   examples={["some message contents"]}
   name={"value"}
-  path={"input"}
+  path={"inputs"}
   relevantWhen={{"type":"raw"}}
   required={false}
   templateable={false}
