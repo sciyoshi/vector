@@ -107,6 +107,9 @@ import CodeHeader from '@site/src/components/CodeHeader';
       "host.exists" = true
       "method.neq" = "POST"
 
+  # OPTIONAL - General
+  no_outputs_from = ["foo"] # example, no default
+
   # REQUIRED - Input
   [tests.input]
     # REQUIRED - General
@@ -517,6 +520,28 @@ Specifies the log message field contents when the input type is 'raw'.
 ### name
 
 A unique identifier for this test.
+
+
+</Field>
+
+
+<Field
+  common={false}
+  defaultValue={null}
+  enumValues={null}
+  examples={[["foo"]]}
+  name={"no_outputs_from"}
+  path={null}
+  relevantWhen={null}
+  required={false}
+  templateable={false}
+  type={"[string]"}
+  unit={null}
+  >
+
+### no_outputs_from
+
+A list of transforms that must NOT output events in order for the test to pass.
 
 
 </Field>

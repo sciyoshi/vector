@@ -214,7 +214,10 @@ inventory::collect!(TransformDescription);
 pub struct TestDefinition {
     pub name: String,
     pub input: TestInput,
+    #[serde(default)]
     pub outputs: Vec<TestOutput>,
+    #[serde(default)]
+    pub no_outputs_from: Vec<String>,
 }
 
 #[derive(Deserialize, Serialize, Debug)]
