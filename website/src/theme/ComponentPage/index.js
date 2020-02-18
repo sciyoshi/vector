@@ -62,7 +62,7 @@ function ComponentPage(props) {
 
   return (
     <Layout title="Collect Docker Logs & Send Them Anywhere" description="Collect Docker logs in minutes, for free. Quickly collect Docker logs and metrics and send them to one or more destinations.">
-      <header className="hero hero--full-height domain-bg domain-bg--platforms">
+      <header className="hero domain-bg domain-bg--platforms">
         <div className="container">
           <div className="component-icons">
             <div className="icon panel">
