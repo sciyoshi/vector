@@ -689,7 +689,7 @@ mod tests {
 
     #[test]
     fn test_fail_no_outputs() {
-        let config: Config = toml::from_str(
+        let mut config: Config = toml::from_str(
             r#"
 [transforms.foo]
   inputs = [ "TODO" ]
@@ -713,13 +713,13 @@ mod tests {
         )
         .unwrap();
 
-        let mut tests = build_unit_tests(&config).unwrap();
+        let mut tests = build_unit_tests(&mut config).unwrap();
         assert_ne!(tests[0].run().1, Vec::<String>::new());
     }
 
     #[test]
     fn test_fail_two_output_events() {
-        let config: Config = toml::from_str(
+        let mut config: Config = toml::from_str(
             r#"
 [transforms.foo]
   inputs = [ "TODO" ]
@@ -783,7 +783,7 @@ mod tests {
         )
         .unwrap();
 
-        let mut tests = build_unit_tests(&config).unwrap();
+        let mut tests = build_unit_tests(&mut config).unwrap();
         assert_eq!(tests[0].run().1, Vec::<String>::new());
         assert_ne!(tests[1].run().1, Vec::<String>::new());
     }
