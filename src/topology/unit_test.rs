@@ -712,9 +712,12 @@ mod tests {
       type = "check_fields"
       "new_field.equals" = "string value"
       "message.equals" = "nah this doesnt matter"
+
+  [[tests.outputs]]
+    extract_from = "foo_two"
     [[tests.outputs.conditions]]
       type = "check_fields"
-      "new_field.equals" = "string value"
+      "new_field_two.equals" = "second string value"
       "message.equals" = "nah this also doesnt matter"
 
   [[tests.outputs]]
@@ -726,7 +729,7 @@ mod tests {
       "message.equals" = "nah this doesnt matter"
     [[tests.outputs.conditions]]
       type = "check_fields"
-      "new_field.equals" = "string value"
+      "new_field_two.equals" = "second string value"
       "second_new_field.equals" = "also a string value"
       "message.equals" = "nah this also doesnt matter"
 
@@ -740,7 +743,7 @@ mod tests {
       "message.equals" = "nah this doesnt matter"
     [[tests.outputs.conditions]]
       type = "check_fields"
-      "new_field.equals" = "string value"
+      "new_field_two.equals" = "second string value"
       "second_new_field.equals" = "also a string value"
       "third_new_field.equals" = "also also a string value"
       "message.equals" = "nah this also doesnt matter"
